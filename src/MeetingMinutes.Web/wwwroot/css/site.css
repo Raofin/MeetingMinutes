@@ -1,22 +1,120 @@
 html {
-  font-size: 14px;
+  font-size: 100%
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+main {
+  margin-bottom: 5.4rem
 }
 
 body {
-  margin-bottom: 60px;
+  position: relative;
+  margin: 0;
+  padding-bottom: 1.25rem;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", sans-serif
+}
+
+a {
+  transition: .4s ease;
+  text-decoration: none
+}
+
+  a:not(.btn):hover {
+    color: #ff4653 !important
+  }
+
+p {
+  margin-bottom: .3rem;
+}
+
+
+label {
+  margin-left: .25rem
+}
+
+.link {
+  color: dodgerblue
+}
+
+.link {
+  transition: .4s ease;
+  cursor: pointer;
+}
+
+.error {
+  border-color: #DC3545;
+  color: #DC3545;
+}
+
+  .error:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(255, 76, 50, 0.30);
+    border-color: darkred;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+  }
+
+.navbar {
+  backdrop-filter: blur(.5rem);
+  background-color: rgba(255, 255, 255, 50%) !important
+}
+
+.navbar-nav a {
+  --bs-text-opacity: 1;
+  transition: .4s ease;
+  color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
+  font-weight: 600;
+}
+
+.container-fluid a,
+.container-fluid ul,
+.container-fluid li {
+  display: flex;
+  align-items: center
+}
+
+.navbar-brand {
+  filter: drop-shadow(.125rem .125rem .125rem rgba(0, 0, 0, .2));
+  font-weight: bold
+}
+
+.logo {
+  padding-right: .31rem;
+  max-width: 2.5rem;
+  max-height: 2.2rem
+}
+
+.logo-text {
+  margin-bottom: .13rem;
+  color: dodgerblue;
+  font-size: 1.9rem;
+  font-family: "Tilt Warp", sans-serif
+}
+
+  .logo-text span {
+    color: #30325e
+  }
+
+.nav-center li {
+  padding: 0 .32rem
+}
+
+.nav-link i {
+  margin-right: .25rem;
+  font-size: 1rem
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  backdrop-filter: blur(3px);
+  padding: 1.25rem 10%;
+  width: 100%;
+  text-align: center
+}
+
+.title {
+  filter: drop-shadow(.125rem .125rem .125rem rgba(0, 0, 0, .2));
+  font-family: "Tilt Warp", sans-serif
 }

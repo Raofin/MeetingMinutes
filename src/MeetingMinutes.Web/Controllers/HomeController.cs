@@ -1,31 +1,14 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using MeetingMinutes.Web.Models;
+using ILogger = Serilog.ILogger;
 
 namespace MeetingMinutes.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController(ILogger logger) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger _logger = logger;
 
     public IActionResult Index()
     {
         return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

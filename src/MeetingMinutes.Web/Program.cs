@@ -1,24 +1,39 @@
+using MeetingMinutes.Application;
+using MeetingMinutes.Infrastructure;
+using MeetingMinutes.Web;
+using WebMarkupMin.AspNetCore8;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Host.UseSerilogConfig(builder.Environment);
+
+builder.Services
+    .AddAppConfigurations(builder.Environment, builder.Configuration)
+    .AddApplication()
+    .AddInfrastructure();
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/error");
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseWebOptimizer();
+app.UseWebMarkupMin();
+app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthorization();
+app.ApplyMigration();
 
 app.MapControllerRoute(
     name: "default",
