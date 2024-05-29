@@ -17,4 +17,9 @@ public class CustomerRepository(AppDbContext context) : ICustomerRepository
     {
         return await _dbContext.IndividualCustomers.ToListAsync();
     }
+
+    public async Task<List<ProductsService>> GetProductsAsync()
+    {
+        return await _dbContext.ProductsServices.ToListAsync();
+    }
 }

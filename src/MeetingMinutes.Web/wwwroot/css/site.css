@@ -148,7 +148,6 @@ p {
 }
 
 .fit-content {
-  max-width: -moz-fit-content !important;
   max-width: fit-content !important;
 }
 

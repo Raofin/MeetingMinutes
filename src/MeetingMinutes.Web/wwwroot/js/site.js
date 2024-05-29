@@ -1,66 +1,61 @@
-﻿
-var rowData = [
-    { sl: 1, productName: "Product A", quantity: 10, unit: "kg", edit: true, delete: false },
-    { sl: 2, productName: "Product B", quantity: 20, unit: "pieces", edit: true, delete: true },
-];
+﻿$('input[name="userType"]').on('change', function () {
+    var userType = $(this).val();
 
-var columnDefs = [
-    { headerName: "SL #", field: "sl", maxWidth: 80, flex: 0, rowDrag: (params) => !params.node.group, sortable: true, filter: true },
-    { headerName: "Interested Product/Service Name", field: "productName", minWidth: 300, flex: 2, sortable: true, filter: true },
-    { headerName: "Quantity", field: "quantity", maxWidth: 120, flex: 1, sortable: true, filter: true },
-    { headerName: "Unit", field: "unit", maxWidth: 120, flex: 1, sortable: true, filter: true },
-    {
-        headerName: "Edit",
-        field: "edit",
-        maxWidth: 100,
-        cellRenderer: function (params) {
-            return "<button class='btn btn-primary' style='padding: 2px 10px'>Edit</button>";
-        },
-        sortable: true,
-        filter: true,
-        headerClass: "center-header",
-    },
-    {
-        headerName: "Delete",
-        field: "delete",
-        maxWidth: 100,
-        cellRenderer: function (params) {
-            return "<button class='btn btn-danger' style='padding: 2px 10px'>Delete</button>";
-        },
-        sortable: true,
-        filter: true,
-        headerClass: "center-header",
-        resizable: false,
-    },
-];
+    $.get('/api/customers/' + userType, function (data) {
+        $('#customer-name').empty().append('<option selected disabled>Select customer name...</option>');
+        $.each(data, function (_index, customer) {
+            $('#customer-name').append($('<option></option>').attr('value', customer.customerId).text(customer.customerName));
+        });
+    }).fail(function () {
+        console.error('Failed to load customers');
+    });
+});
 
-var gridOptions = {
-    columnDefs: columnDefs,
-    rowData: rowData,
-    domLayout: "autoHeight",
-    defaultColDef: {
-        resizable: true,
-    },
-    rowDrag: true,
-    rowDragEntireRow: true,
-    rowDragManaged: true,
-    alwaysShowVerticalScroll: true,
-};
+var products = [];
+var slCounter = 1;
 
-gridOptions.onCellMouseOver = function (event) {
-    if (event.event.target && event.event.target.offsetParent.classList.contains("ag-row")) {
-        event.event.target.offsetParent.setAttribute("draggable", "true");
-        event.event.target.offsetParent.addEventListener(
-            "dragstart",
-            function (e) {
-                e.dataTransfer.setData("text/plain", "dummy");
-            },
-            true
-        );
+$('#add-item').on('click', function (e) {
+    e.preventDefault();
+
+    if ($('#product-name option:selected').is(':disabled')) {
+        toastMessage("Please select an interested product or service.")
+        return;
     }
-};
 
-var eGridDiv = document.querySelector("#myGrid");
-new agGrid.Grid(eGridDiv, gridOptions);
+    var productName = $('#product-name option:selected').text();
+    var quantity = $('#quantity').val();
+    var unit = $('#unit').val();
+    var productId = $('#product-name').find('option:selected').val();
 
-document.getElementById("myGrid").style.maxHeight = "500px";
+    var newData = {
+        sl: slCounter,
+        productName: productName,
+        quantity: quantity || 'N/A',
+        unit: unit || 'N/A',
+        productId: productId,
+    };
+    slCounter++;
+
+    gridApi.applyTransaction({
+        add: [newData],
+    });
+    products.push(newData);
+});
+
+function removeSelected() {
+    setTimeout(() => {
+        const selectedData = gridApi.getSelectedRows();
+        gridApi.applyTransaction({ remove: selectedData });
+        products = products.filter(product => product.sl !== selectedData.sl);
+    }, 10);
+}
+
+function remove(sl) {
+    gridApi.forEachNode(function (node) {
+        if (node.data.sl === sl) {
+            gridApi.applyTransaction({
+                remove: [node.data],
+            });
+        }
+    });
+}

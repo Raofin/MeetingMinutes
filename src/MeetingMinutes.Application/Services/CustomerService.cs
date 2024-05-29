@@ -12,7 +12,7 @@ public class CustomerService(ICustomerRepository customerRepository, ILogger log
     private readonly ICustomerRepository _customerRepository = customerRepository;
     private readonly ILogger _logger = logger;
 
-    public async Task<List<CustomerViewModel>> GetAsync(CustomerType customerType)
+    public async Task<List<CustomerViewModel>> GetCustomerAsync(CustomerType customerType)
     {
 
         if (customerType == CustomerType.Corporate)
@@ -41,5 +41,17 @@ public class CustomerService(ICustomerRepository customerRepository, ILogger log
             _logger.Error("Invalid customer type");
             return [];
         }
+    }
+
+    public async Task<List<ProductServiceViewModel>> GetProductServiceAsync()
+    {
+        var productServices = await _customerRepository.GetProductsAsync();
+
+        return productServices.Select(
+            p => new ProductServiceViewModel(
+                ProductServiceId: p.ProductServiceId,
+                Name: p.Name,
+                Type: p.Type
+            )).ToList();
     }
 }

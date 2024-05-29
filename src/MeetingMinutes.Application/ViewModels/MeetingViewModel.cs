@@ -14,3 +14,8 @@ public record MeetingViewModel(
     long? CustomerId,
     CustomerType CustomerType
 );
+
+public record MeetingLandingViewModel(
+    List<CustomerViewModel> Customers,
+    List<ProductServiceViewModel> ProductServices
+);
