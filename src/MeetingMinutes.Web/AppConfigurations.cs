@@ -10,6 +10,9 @@ using FluentValidation.AspNetCore;
 using MeetingMinutes.Infrastructure;
 using MeetingMinutes.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
+using MeetingMinutes.Application.ViewModels;
+using MeetingMinutes.Application.Validators;
 
 namespace MeetingMinutes.Web;
 
@@ -62,6 +65,9 @@ public static class AppConfigurations
 
     private static IServiceCollection AddFluentValidator(this IServiceCollection services)
     {
+        services.AddMvc();
+        services.AddScoped<IValidator<MeetingViewModel>, MeetingViewModelValidator>();
+
         return services
             .AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters()

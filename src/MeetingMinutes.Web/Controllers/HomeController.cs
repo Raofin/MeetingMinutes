@@ -1,3 +1,4 @@
+using FluentValidation;
 using MeetingMinutes.Application.Common;
 using MeetingMinutes.Application.Interfaces;
 using MeetingMinutes.Application.ViewModels;
@@ -6,9 +7,10 @@ using ILogger = Serilog.ILogger;
 
 namespace MeetingMinutes.Web.Controllers;
 
-public class HomeController(ILogger logger, ICustomerService customerService) : Controller
+public class HomeController(ILogger logger, IValidator<MeetingViewModel> validator, ICustomerService customerService) : Controller
 {
     private readonly ILogger _logger = logger;
+    private readonly IValidator<MeetingViewModel> _validator = validator;
     private readonly ICustomerService _customerService = customerService;
 
     [HttpGet]
@@ -25,9 +27,10 @@ public class HomeController(ILogger logger, ICustomerService customerService) : 
     [HttpPost]
     public async Task<IActionResult> IndexAsync(MeetingViewModel model)
     {
-        if (ModelState.IsValid)
+        var validation = await _validator.ValidateAsync(model);
+        if (!validation.IsValid)
         {
-            return BadRequest();
+            return BadRequest(validation);
         }
 
         return Ok();
@@ -41,6 +44,4 @@ public class HomeController(ILogger logger, ICustomerService customerService) : 
 
         return Ok(customers);
     }
-
-
 }

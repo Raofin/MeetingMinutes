@@ -1,7 +1,7 @@
-﻿$('input[name="userType"]').on('change', function () {
-    var userType = $(this).val();
+﻿$('input[name="CustomerType"]').on('change', function () {
+    var CustomerType = $(this).val();
 
-    $.get('/api/customers/' + userType, function (data) {
+    $.get('/api/customers/' + CustomerType, function (data) {
         $('#customer-name').empty().append('<option selected disabled>Select customer name...</option>');
         $.each(data, function (_index, customer) {
             $('#customer-name').append($('<option></option>').attr('value', customer.customerId).text(customer.customerName));
@@ -61,40 +61,39 @@ function remove(sl) {
 }
 
 $("#meeting-form").validate({
-    // Specify validation rules
     rules: {
-        CustomerType: {
-            required: true,
-            minlength: 1
-        },
-        CustomerId: {
-            required: true
-        },
-        Place: {
-            required: true,
-            minlength: 5,
-            maxlength: 200
-        },
-        ClientSide: {
-            required: true,
-            minlength: 5
-        },
-        HostSide: {
-            required: true,
-            minlength: 5
-        },
-        Agenda: {
-            required: true,
-            minlength: 5
-        },
-        Discussion: {
-            required: true,
-            minlength: 5
-        },
-        Decision: {
-            required: true,
-            minlength: 5
-        }
+        //CustomerType: {
+        //    required: true,
+        //    minlength: 1
+        //},
+        //CustomerId: {
+        //    required: true
+        //},
+        //Place: {
+        //    required: true,
+        //    minlength: 5,
+        //    maxlength: 200
+        //},
+        //ClientSide: {
+        //    required: true,
+        //    minlength: 5
+        //},
+        //HostSide: {
+        //    required: true,
+        //    minlength: 5
+        //},
+        //Agenda: {
+        //    required: true,
+        //    minlength: 5
+        //},
+        //Discussion: {
+        //    required: true,
+        //    minlength: 5
+        //},
+        //Decision: {
+        //    required: true,
+        //    minlength: 5
+        //}
     },
     submitHandler: function (form) {
         let data = $(form).serializeArray().reduce((obj, item) => {
@@ -104,17 +103,24 @@ $("#meeting-form").validate({
 
         data.ProductServices = products;
 
+        data.ProductServices.forEach(service => {
+            if (service.quantity === 'N/A') {
+                delete service.quantity;
+            }
+            if (service.unit === 'N/A') {
+                delete service.unit;
+            }
+        });
+
+
         const dateInput = $('#date');
         const timeInput = $('#time');
 
-        // Ensure the date and time values are present
         if (dateInput.val() && timeInput.val()) {
             data.Datetime = `${$('#date').val()}T${$('#time').val()}`;
         } else if (dateInput.val()) {
             data.Datetime = `${$('#date').val()}T00:00`;
         }
-
-        console.log(data);
 
         $.ajax({
             url: '/',
@@ -123,11 +129,13 @@ $("#meeting-form").validate({
             success: () => {
                 toastMessage('Meeting saved successfully!', ToastColor.Green)
             },
-            error: () => {
-                toastMessage('Internal server error. Please try again later.')
+            error: function (xhr) {
+                if (xhr.status === 400) {
+                    toastMessage('Validation error occurred');
+                } else {
+                    toastMessage('Internal server error. Please try again later.');
+                }
             }
         });
-
-        // No need to return false here since we handle form submission manually
     }
 });
