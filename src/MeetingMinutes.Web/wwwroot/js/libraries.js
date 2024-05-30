@@ -68,14 +68,14 @@ setTippyContent()
 var columnDefs = [
     { headerName: "SL #", field: "sl", maxWidth: 80, flex: 0, rowDrag: (params) => !params.node.group, sortable: true, filter: true },
     { headerName: "Interested Product/Service Name", field: "productName", minWidth: 300, flex: 2, sortable: true, filter: true },
-    { headerName: "Quantity", field: "quantity", maxWidth: 120, flex: 1, sortable: true, filter: true },
-    { headerName: "Unit", field: "unit", maxWidth: 120, flex: 1, sortable: true, filter: true },
+    { headerName: "Quantity", field: "quantity", maxWidth: 120, flex: 1, sortable: true, filter: true, editable: true },
+    { headerName: "Unit", field: "unit", maxWidth: 120, flex: 1, sortable: true, filter: true, editable: true },
     {
         headerName: "Edit",
         field: "edit",
         maxWidth: 100,
         cellRenderer: function (params) {
-            return "<button class='btn btn-primary' style='padding: 2px 10px'>Edit</button>";
+            return "<span class='btn btn-primary' style='padding: 2px 10px' pop=\"Double click on Quantity or Unit to edit!\">Edit</button>";
         },
         sortable: true,
         filter: true,

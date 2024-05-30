@@ -40,6 +40,9 @@ $('#add-item').on('click', function (e) {
         add: [newData],
     });
     products.push(newData);
+
+    setTimeout(() => { setTippyContent() }, 10);
+
 });
 
 function removeSelected() {
@@ -58,6 +61,14 @@ function remove(sl) {
             });
         }
     });
+}
+
+function getRowData() {
+    const rowData = [];
+    gridApi.forEachNode(function (node) {
+        rowData.push(node.data);
+    });
+    console.log(rowData);
 }
 
 $("#meeting-form").validate({
@@ -104,7 +115,7 @@ $("#meeting-form").validate({
         data.ProductServices = products;
 
         data.ProductServices.forEach(service => {
-            if (service.quantity === 'N/A') {
+            if (service.quantity === 'N/A' || isNaN(service.quantity)) {
                 delete service.quantity;
             }
             if (service.unit === 'N/A') {
@@ -121,7 +132,6 @@ $("#meeting-form").validate({
         } else if (dateInput.val()) {
             data.Datetime = `${$('#date').val()}T00:00`;
         }
-
         $.ajax({
             url: '/',
             type: "POST",
