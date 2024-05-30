@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using MeetingMinutes.Application.Common;
 using MeetingMinutes.Application.ViewModels;
 
 namespace MeetingMinutes.Application.Validators;
@@ -9,7 +8,7 @@ public class MeetingViewModelValidator : AbstractValidator<MeetingViewModel>
     public MeetingViewModelValidator()
     {
         RuleFor(x => x.CustomerType)
-           .Must(BeAValidCustomerType)
+           .IsInEnum().WithMessage("Invalid Customer Type")
            .WithMessage("Invalid Customer Type");
 
         RuleFor(x => x.CustomerId)
@@ -40,10 +39,5 @@ public class MeetingViewModelValidator : AbstractValidator<MeetingViewModel>
         RuleFor(x => x.Decision)
            .NotEmpty().WithMessage("Decision cannot be empty")
            .MinimumLength(2).WithMessage("Decision must be at least 2 characters long");
-    }
-
-    private bool BeAValidCustomerType(CustomerType? customerType)
-    {
-        return customerType != null && Enum.IsDefined(typeof(CustomerType), customerType.Value);
     }
 }

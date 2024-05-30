@@ -9,6 +9,7 @@ public static class Dependencies
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<IMeetingService, MeetingService>();
 
         return services;
     }

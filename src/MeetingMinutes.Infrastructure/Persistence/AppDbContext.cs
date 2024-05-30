@@ -16,7 +16,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-        //modelBuilder.Seed();
+        modelBuilder.Seed();
 
         base.OnModelCreating(modelBuilder);
     }

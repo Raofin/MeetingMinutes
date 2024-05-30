@@ -1,4 +1,7 @@
-﻿namespace MeetingMinutes.Infrastructure.Persistence;
+﻿using MeetingMinutes.Domain;
+using Microsoft.EntityFrameworkCore.Storage;
+
+namespace MeetingMinutes.Infrastructure.Persistence;
 
 internal class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
 {
@@ -7,6 +10,16 @@ internal class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
     public async Task<int> CommitAsync()
     {
         return await _context.SaveChangesAsync();
+    }
+
+    public IDbContextTransaction BeginTransaction()
+    {
+        return _context.Database.BeginTransaction();
+    }
+
+    public void Rollback()
+    {
+        _context.Database.RollbackTransaction();
     }
 
     public void Dispose()

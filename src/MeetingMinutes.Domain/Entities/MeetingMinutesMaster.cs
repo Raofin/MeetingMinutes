@@ -13,9 +13,8 @@ public class MeetingMinutesMaster
 
     public long? CorporateCustomerId { get; set; }
     public long? IndividualCustomerId { get; set; }
-    public long? MeetingDetailsId { get; set; }
-
     public CorporateCustomer? CorporateCustomer { get; set; }
     public IndividualCustomer? IndividualCustomer { get; set; }
-    public MeetingMinutesDetails? MeetingDetails { get; set; }
+
+    public virtual ICollection<MeetingMinutesDetails> MeetingDetails { get; set; } = new List<MeetingMinutesDetails>();
 }

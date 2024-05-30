@@ -62,38 +62,38 @@ function remove(sl) {
 
 $("#meeting-form").validate({
     rules: {
-        //CustomerType: {
-        //    required: true,
-        //    minlength: 1
-        //},
-        //CustomerId: {
-        //    required: true
-        //},
-        //Place: {
-        //    required: true,
-        //    minlength: 5,
-        //    maxlength: 200
-        //},
-        //ClientSide: {
-        //    required: true,
-        //    minlength: 5
-        //},
-        //HostSide: {
-        //    required: true,
-        //    minlength: 5
-        //},
-        //Agenda: {
-        //    required: true,
-        //    minlength: 5
-        //},
-        //Discussion: {
-        //    required: true,
-        //    minlength: 5
-        //},
-        //Decision: {
-        //    required: true,
-        //    minlength: 5
-        //}
+        CustomerType: {
+            required: true,
+            minlength: 1
+        },
+        CustomerId: {
+            required: true
+        },
+        Place: {
+            required: true,
+            minlength: 5,
+            maxlength: 200
+        },
+        ClientSide: {
+            required: true,
+            minlength: 5
+        },
+        HostSide: {
+            required: true,
+            minlength: 5
+        },
+        Agenda: {
+            required: true,
+            minlength: 5
+        },
+        Discussion: {
+            required: true,
+            minlength: 5
+        },
+        Decision: {
+            required: true,
+            minlength: 5
+        }
     },
     submitHandler: function (form) {
         let data = $(form).serializeArray().reduce((obj, item) => {

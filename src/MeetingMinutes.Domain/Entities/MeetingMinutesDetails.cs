@@ -7,7 +7,8 @@ public class MeetingMinutesDetails
     public string? Unit { get; set; }
 
     public long? ProductServiceId { get; set; }
-    public ProductsService ProductService { get; set; } = null!;
+    public long? MeetingMinutesId { get; set; }
 
-    public ICollection<MeetingMinutesMaster> MeetingMinutesMasterTbls { get; set; } = new List<MeetingMinutesMaster>();
+    public ProductsService ProductService { get; set; } = null!;
+    public MeetingMinutesMaster MeetingMinutes { get; set; } = null!;
 }

@@ -26,9 +26,5 @@ public class MeetingMinutesMasterTblConfiguration : IEntityTypeConfiguration<Mee
         entity.HasOne(d => d.IndividualCustomer)
             .WithMany(p => p.MeetingMinutesMasterTbls)
             .HasForeignKey(d => d.IndividualCustomerId);
-
-        entity.HasOne(d => d.MeetingDetails)
-            .WithMany(p => p.MeetingMinutesMasterTbls)
-            .HasForeignKey(d => d.MeetingDetailsId);
     }
 }

@@ -4,6 +4,7 @@ using MeetingMinutes.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeetingMinutes.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240530094227_UpdateMeetingFKs")]
+    partial class UpdateMeetingFKs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,58 +41,6 @@ namespace MeetingMinutes.Infrastructure.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Corporate_Customer_Tbl", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1L,
-                            CustomerName = "Tech Corp"
-                        },
-                        new
-                        {
-                            CustomerId = 2L,
-                            CustomerName = "Finance Inc"
-                        },
-                        new
-                        {
-                            CustomerId = 3L,
-                            CustomerName = "Healthcare LLC"
-                        },
-                        new
-                        {
-                            CustomerId = 4L,
-                            CustomerName = "Education Group"
-                        },
-                        new
-                        {
-                            CustomerId = 5L,
-                            CustomerName = "Retail Co"
-                        },
-                        new
-                        {
-                            CustomerId = 6L,
-                            CustomerName = "Manufacturing Ltd"
-                        },
-                        new
-                        {
-                            CustomerId = 7L,
-                            CustomerName = "Agriculture Farm"
-                        },
-                        new
-                        {
-                            CustomerId = 8L,
-                            CustomerName = "Construction Co"
-                        },
-                        new
-                        {
-                            CustomerId = 9L,
-                            CustomerName = "Real Estate LLC"
-                        },
-                        new
-                        {
-                            CustomerId = 10L,
-                            CustomerName = "Media Group"
-                        });
                 });
 
             modelBuilder.Entity("MeetingMinutes.Domain.Entities.IndividualCustomer", b =>
@@ -108,58 +59,6 @@ namespace MeetingMinutes.Infrastructure.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Individual_Customer_Tbl", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1L,
-                            CustomerName = "John Doe"
-                        },
-                        new
-                        {
-                            CustomerId = 2L,
-                            CustomerName = "Jane Smith"
-                        },
-                        new
-                        {
-                            CustomerId = 3L,
-                            CustomerName = "Alice Johnson"
-                        },
-                        new
-                        {
-                            CustomerId = 4L,
-                            CustomerName = "Bob Brown"
-                        },
-                        new
-                        {
-                            CustomerId = 5L,
-                            CustomerName = "Charlie White"
-                        },
-                        new
-                        {
-                            CustomerId = 6L,
-                            CustomerName = "Diana Green"
-                        },
-                        new
-                        {
-                            CustomerId = 7L,
-                            CustomerName = "Ethan Black"
-                        },
-                        new
-                        {
-                            CustomerId = 8L,
-                            CustomerName = "Fiona Red"
-                        },
-                        new
-                        {
-                            CustomerId = 9L,
-                            CustomerName = "George Blue"
-                        },
-                        new
-                        {
-                            CustomerId = 10L,
-                            CustomerName = "Hannah Yellow"
-                        });
                 });
 
             modelBuilder.Entity("MeetingMinutes.Domain.Entities.LogEvent", b =>
@@ -295,68 +194,6 @@ namespace MeetingMinutes.Infrastructure.Migrations
                     b.HasKey("ProductServiceId");
 
                     b.ToTable("Products_Service_Tbl", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            ProductServiceId = 1L,
-                            Name = "Cloud-Based CRM Software",
-                            Type = "service"
-                        },
-                        new
-                        {
-                            ProductServiceId = 2L,
-                            Name = "AI-Powered Analytics Suite",
-                            Type = "service"
-                        },
-                        new
-                        {
-                            ProductServiceId = 3L,
-                            Name = "E-Commerce Platform",
-                            Type = "service"
-                        },
-                        new
-                        {
-                            ProductServiceId = 4L,
-                            Name = "Blockchain Technology Solutions",
-                            Type = "service"
-                        },
-                        new
-                        {
-                            ProductServiceId = 5L,
-                            Name = "Cybersecurity Services",
-                            Type = "service"
-                        },
-                        new
-                        {
-                            ProductServiceId = 6L,
-                            Name = "Wireless Earbuds",
-                            Type = "product"
-                        },
-                        new
-                        {
-                            ProductServiceId = 7L,
-                            Name = "Smart Home Hub",
-                            Type = "product"
-                        },
-                        new
-                        {
-                            ProductServiceId = 8L,
-                            Name = "Electric Scooter",
-                            Type = "product"
-                        },
-                        new
-                        {
-                            ProductServiceId = 9L,
-                            Name = "Solar Energy Panels",
-                            Type = "product"
-                        },
-                        new
-                        {
-                            ProductServiceId = 10L,
-                            Name = "Portable Power Bank",
-                            Type = "product"
-                        });
                 });
 
             modelBuilder.Entity("MeetingMinutes.Domain.Entities.MeetingMinutesDetails", b =>

@@ -7,19 +7,20 @@ using ILogger = Serilog.ILogger;
 
 namespace MeetingMinutes.Web.Controllers;
 
-public class HomeController(ILogger logger, IValidator<MeetingViewModel> validator, ICustomerService customerService) : Controller
+public class HomeController(ILogger logger, IValidator<MeetingViewModel> validator, ICustomerService customerService, IMeetingService meetingService) : Controller
 {
     private readonly ILogger _logger = logger;
     private readonly IValidator<MeetingViewModel> _validator = validator;
     private readonly ICustomerService _customerService = customerService;
+    private readonly IMeetingService _meetingService = meetingService;
 
     [HttpGet]
     public async Task<IActionResult> IndexAsync()
     {
-        var landingData = new MeetingViewModel(
-            CustomerDDL: await _customerService.GetCustomerAsync(CustomerType.Corporate),
-            ProductServiceDDL: await _customerService.GetProductServiceAsync()
-        );
+        var landingData = new MeetingViewModel {
+            CustomerDDL = await _customerService.GetCustomerAsync(CustomerType.Corporate),
+            ProductServiceDDL = await _customerService.GetProductServiceAsync()
+        };
 
         return View(landingData);
     }
@@ -32,6 +33,8 @@ public class HomeController(ILogger logger, IValidator<MeetingViewModel> validat
         {
             return BadRequest(validation);
         }
+
+        await _meetingService.SaveMeetingAsync(model);
 
         return Ok();
     }

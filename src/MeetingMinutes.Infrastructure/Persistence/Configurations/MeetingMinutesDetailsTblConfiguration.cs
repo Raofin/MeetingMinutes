@@ -16,6 +16,14 @@ public class MeetingMinutesDetailsTblConfiguration : IEntityTypeConfiguration<Me
         entity.HasOne(d => d.ProductService)
             .WithMany(p => p.MeetingMinutesDetailsTbls)
             .HasForeignKey(d => d.ProductServiceId);
-    }
 
+        entity.HasOne(d => d.MeetingMinutes)
+            .WithMany(p => p.MeetingDetails)
+            .HasForeignKey(d => d.MeetingMinutesId);
+
+        entity.HasOne(d => d.ProductService)
+            .WithMany(p => p.MeetingMinutesDetailsTbls)
+            .HasForeignKey(d => d.ProductServiceId);
+
+    }
 }
