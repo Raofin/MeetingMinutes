@@ -1,117 +1,120 @@
-﻿@model MeetingMinutes.Application.ViewModels.MeetingLandingViewModel
+﻿@using MeetingMinutes.Application.Common
+@model MeetingMinutes.Application.ViewModels.MeetingViewModel
 
 <div class="meeting-info" style="margin: auto; max-width: 1000px">
-    <div class="container mt-5 mb-3 p-4">
-        <div class="mb-3 d-flex">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="userType" id="corporate" value="Corporate" checked />
-                <label class="form-check-label me-3" for="corporate">Corporate</label>
+    <form id="meeting-form">
+        <div class="container mt-5 mb-3 p-4">
+            <div class="mb-3 d-flex">
+                <div class="form-check">
+                    <input id="corporate" asp-for="CustomerType" class="form-check-input" type="radio" value="@((int)CustomerType.Corporate)" checked />
+                    <label class="form-check-label me-3" for="corporate">Corporate</label>
+                </div>
+                <div class="form-check">
+                    <input id="individual" asp-for="CustomerType" class="form-check-input" type="radio" value="@((int)CustomerType.Individual)" />
+                    <label class="form-check-label" for="individual">Individual</label>
+                </div>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="userType" id="individual" value="Individual" />
-                <label class="form-check-label" for="individual">Individual</label>
-            </div>
-        </div>
-        <hr />
-        <div class="row gx-5">
-            <div class="col-md-7">
-                <div class="row mb-2">
-                    <label for="customer-name" class="col">Customer Name</label>
-                    <select id="customer-name" class="col form-select">
-                        <option selected disabled>Select customer name...</option>
-                        @foreach (var customer in Model.Customers)
-                        {
-                            <option value="@customer.CustomerId">@customer.CustomerName</option>
-                        }
-                    </select>
+            <hr />
+            <div class="row gx-5">
+                <div class="col-md-7">
+                    <div class="row mb-2">
+                        <label for="customer-name" class="col">Customer Name</label>
+                        <select id="customer-name" asp-for="CustomerId" class="col form-select">
+                            <option selected disabled>Select customer name...</option>
+                            @foreach (var customer in Model.CustomerDDL)
+                            {
+                                <option value="@customer.CustomerId">@customer.CustomerName</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label for="date" class="col">Date</label>
+                        <div class="col d-flex justify-content-between px-0 align-items-center">
+                            <div class="me-auto">
+                                <input type="date" id="date" class="form-control datetime-input" />
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <label for="time" class="ms-2 me-2">Time</label>
+                                <input type="time" id="time" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label for="meeting-place" class="col">Meeting Place</label>
+                        <input asp-for="Place" type="text" id="meeting-place" class="col form-control" placeholder="Meeting place" />
+                    </div>
+
+                    <div class="row mb-2">
+                        <label for="client-site" class="col">Attends From Client Side</label>
+                        <textarea asp-for="ClientSide" type="text" id="client-site" class="col form-control" placeholder="Present client side"></textarea>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label for="host-side" class="col">Attends From Host Side</label>
+                        <textarea asp-for="HostSide" type="text" id="host-side" class="col form-control" placeholder="Present self side"></textarea>
+                    </div>
                 </div>
 
-                <div class="row mb-2">
-                    <label for="date" class="col">Date</label>
-                    <div class="col d-flex justify-content-between px-0 align-items-center">
-                        <div class="me-auto">
-                            <input type="date" id="date" class="form-control datetime-input" />
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <label for="time" class="ms-2 me-2">Time</label>
-                            <input type="time" id="time" class="form-control" />
+                <div class="col-md-5">
+                    <div class="mb-2" style="margin-top: -3px">
+                        <label for="agenda" class="ps-1">Meeting Agenda:</label>
+                        <textarea asp-for="Agenda" id="agenda" class="form-control" placeholder="Meeting agenda"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label for="discussion" class="ps-1">Meeting Discussion:</label>
+                        <textarea asp-for="Discussion" id="discussion" class="form-control" placeholder="Meeting discussion"></textarea>
+                    </div>
+                    <div>
+                        <label for="decision" class="ps-1">Meeting Decision:</label>
+                        <textarea asp-for="Decision" id="decision" class="form-control" placeholder="Meeting decision"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container product mb-3 px-4 py-3">
+            <div class="col d-flex justify-content-between px-0 align-items-center">
+                <div class="w-100">
+                    <div class="d-flex mb-2">
+                        <label for="product-name" class="col">Interested Product/Service</label>
+                        <select id="product-name" class="col form-select">
+                            <option selected disabled>Select interested product/service...</option>
+                            @foreach (var customer in Model.ProductServiceDDL)
+                            {
+                                <option value="@customer.ProductServiceId">@customer.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="d-flex">
+                        <label for="quantity" class="col">Quantity</label>
+                        <div class="col d-flex justify-content-between px-0 align-items-center">
+                            <div class="me-auto">
+                                <input type="number" id="quantity" placeholder="Enter quantity" class="form-control" />
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <label for="unit" class="ms-2 me-2">Unit</label>
+                                <input type="text" id="unit" placeholder="Enter unit" class="form-control" />
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row mb-2">
-                    <label for="meeting-place" class="col">Meeting Place</label>
-                    <input type="text" id="meeting-place" class="col form-control" placeholder="Meeting place" />
-                </div>
-
-                <div class="row mb-2">
-                    <label for="client-site" class="col">Attends From Client Side</label>
-                    <textarea type="text" id="client-site" class="col form-control" placeholder="Present client side"></textarea>
-                </div>
-
-                <div class="row mb-2">
-                    <label for="host-side" class="col">Attends From Host Side</label>
-                    <textarea type="text" id="host-side" class="col form-control" placeholder="Present self side"></textarea>
-                </div>
-            </div>
-
-            <div class="col-md-5">
-                <div class="mb-2" style="margin-top: -3px">
-                    <label for="agenda" class="ps-1">Meeting Agenda:</label>
-                    <textarea id="agenda" class="form-control" placeholder="Meeting agenda"></textarea>
-                </div>
-                <div class="mb-2">
-                    <label for="discussion" class="ps-1">Meeting Discussion:</label>
-                    <textarea id="discussion" class="form-control" placeholder="Meeting discussion"></textarea>
-                </div>
-                <div>
-                    <label for="decision" class="ps-1">Meeting Decision:</label>
-                    <textarea id="decision" class="form-control" placeholder="Meeting decision"></textarea>
+                <div class="ms-3">
+                    <button id="add-item" class="btn btn-primary" style="padding: 17px 20px">
+                        <i class="fa-regular fa-square-plus" style="font-size: 20px"></i> Add
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="container product mb-3 px-4 py-3">
-        <div class="col d-flex justify-content-between px-0 align-items-center">
-            <div class="w-100">
-                <div class="d-flex mb-2">
-                    <label for="product-name" class="col">Interested Product/Service</label>
-                    <select id="product-name" class="col form-select">
-                        <option selected disabled>Select interested product/service...</option>
-                        @foreach (var customer in Model.ProductServices)
-                        {
-                            <option value="@customer.ProductServiceId">@customer.Name</option>
-                        }
-                    </select>
-                </div>
+        <div id="grid" style="max-height: 200px; padding: 0" class="container ag-theme-alpine"></div>
 
-                <div class="d-flex">
-                    <label for="quantity" class="col">Quantity</label>
-                    <div class="col d-flex justify-content-between px-0 align-items-center">
-                        <div class="me-auto">
-                            <input type="number" id="quantity" placeholder="Enter quantity" class="form-control" />
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <label for="unit" class="ms-2 me-2">Unit</label>
-                            <input type="text" id="unit" placeholder="Enter unit" class="form-control" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="ms-3">
-                <button id="add-item" class="btn btn-primary" style="padding: 17px 20px">
-                    <i class="fa-regular fa-square-plus" style="font-size: 20px"></i> Add
-                </button>
-            </div>
+        <div style="text-align: center; margin-top: 15px">
+            <button type="submit" class="btn btn-success me-2"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+            <button class="btn btn-primary"><i class="fa-solid fa-rotate"></i> Refresh</button>
         </div>
-    </div>
-
-    <div id="grid" style="max-height: 200px; padding: 0" class="container ag-theme-alpine"></div>
-
-    <div style="text-align: center; margin-top: 15px">
-        <button type="submit" class="btn btn-success me-2"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-rotate"></i> Refresh</button>
-    </div>
+    </form>
 </div>

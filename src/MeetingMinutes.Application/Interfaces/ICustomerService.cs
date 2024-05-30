@@ -5,6 +5,6 @@ namespace MeetingMinutes.Application.Interfaces;
 
 public interface ICustomerService
 {
-    Task<List<CustomerViewModel>> GetCustomerAsync(CustomerType customerType);
-    Task<List<ProductServiceViewModel>> GetProductServiceAsync();
+    Task<List<CustomerDDL>> GetCustomerAsync(CustomerType customerType);
+    Task<List<ProductServiceDDL>> GetProductServiceAsync();
 }

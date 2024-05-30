@@ -1,6 +1,6 @@
 ﻿namespace MeetingMinutes.Application.ViewModels;
 
-public record CustomerViewModel(
+public record CustomerDDL(
     long CustomerId, 
     string CustomerName
 );

@@ -86,7 +86,7 @@ var columnDefs = [
         field: "delete",
         maxWidth: 100,
         cellRenderer: function (params) {
-            return `<button class='btn btn-danger' style='padding: 2px 10px' onclick='removeSelected()'>Delete</button>`;
+            return `<span id='delete' class='btn btn-danger' style='padding: 2px 10px' onclick='removeSelected()'>Delete</span>`;
         },
         sortable: true,
         filter: true,

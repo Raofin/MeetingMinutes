@@ -32,7 +32,7 @@ $('#add-item').on('click', function (e) {
         productName: productName,
         quantity: quantity || 'N/A',
         unit: unit || 'N/A',
-        productId: productId,
+        productServiceId: productId,
     };
     slCounter++;
 
@@ -59,3 +59,75 @@ function remove(sl) {
         }
     });
 }
+
+$("#meeting-form").validate({
+    // Specify validation rules
+    rules: {
+        CustomerType: {
+            required: true,
+            minlength: 1
+        },
+        CustomerId: {
+            required: true
+        },
+        Place: {
+            required: true,
+            minlength: 5,
+            maxlength: 200
+        },
+        ClientSide: {
+            required: true,
+            minlength: 5
+        },
+        HostSide: {
+            required: true,
+            minlength: 5
+        },
+        Agenda: {
+            required: true,
+            minlength: 5
+        },
+        Discussion: {
+            required: true,
+            minlength: 5
+        },
+        Decision: {
+            required: true,
+            minlength: 5
+        }
+    },
+    submitHandler: function (form) {
+        let data = $(form).serializeArray().reduce((obj, item) => {
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
+
+        data.ProductServices = products;
+
+        const dateInput = $('#date');
+        const timeInput = $('#time');
+
+        // Ensure the date and time values are present
+        if (dateInput.val() && timeInput.val()) {
+            data.Datetime = `${$('#date').val()}T${$('#time').val()}`;
+        } else if (dateInput.val()) {
+            data.Datetime = `${$('#date').val()}T00:00`;
+        }
+
+        console.log(data);
+
+        $.ajax({
+            url: '/',
+            type: "POST",
+            data: data,
+            success: () => {
+                toastMessage('Meeting saved successfully!', ToastColor.Green)
+            },
+            error: () => {
+                toastMessage('Internal server error. Please try again later.')
+            }
+        });
+
+        // No need to return false here since we handle form submission manually
+    }
+});

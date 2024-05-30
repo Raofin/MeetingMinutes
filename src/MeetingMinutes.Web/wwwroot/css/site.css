@@ -178,3 +178,6 @@ p {
   --ag-border-color: #cccccc70 !important;
   --ag-critical-border-color: #cccccc70 !important;
 }
+label.error {
+  display: none !important;
+}

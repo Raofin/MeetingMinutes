@@ -12,7 +12,7 @@ public class CustomerService(ICustomerRepository customerRepository, ILogger log
     private readonly ICustomerRepository _customerRepository = customerRepository;
     private readonly ILogger _logger = logger;
 
-    public async Task<List<CustomerViewModel>> GetCustomerAsync(CustomerType customerType)
+    public async Task<List<CustomerDDL>> GetCustomerAsync(CustomerType customerType)
     {
 
         if (customerType == CustomerType.Corporate)
@@ -20,7 +20,7 @@ public class CustomerService(ICustomerRepository customerRepository, ILogger log
             var customers = await _customerRepository.GetCorporateAsync();
 
             return customers.Select(
-                c => new CustomerViewModel(
+                c => new CustomerDDL(
                     CustomerId: c.CustomerId,
                     CustomerName: c.CustomerName
                 )).ToList();
@@ -31,7 +31,7 @@ public class CustomerService(ICustomerRepository customerRepository, ILogger log
             var customers = await _customerRepository.GetIndividualAsync();
 
             return customers.Select(
-                c => new CustomerViewModel(
+                c => new CustomerDDL(
                     CustomerId: c.CustomerId,
                     CustomerName: c.CustomerName
                 )).ToList();
@@ -43,12 +43,12 @@ public class CustomerService(ICustomerRepository customerRepository, ILogger log
         }
     }
 
-    public async Task<List<ProductServiceViewModel>> GetProductServiceAsync()
+    public async Task<List<ProductServiceDDL>> GetProductServiceAsync()
     {
         var productServices = await _customerRepository.GetProductsAsync();
 
         return productServices.Select(
-            p => new ProductServiceViewModel(
+            p => new ProductServiceDDL(
                 ProductServiceId: p.ProductServiceId,
                 Name: p.Name,
                 Type: p.Type

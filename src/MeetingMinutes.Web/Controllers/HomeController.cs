@@ -11,14 +11,26 @@ public class HomeController(ILogger logger, ICustomerService customerService) : 
     private readonly ILogger _logger = logger;
     private readonly ICustomerService _customerService = customerService;
 
+    [HttpGet]
     public async Task<IActionResult> IndexAsync()
     {
-        var landingData = new MeetingLandingViewModel(
-            Customers: await _customerService.GetCustomerAsync(CustomerType.Corporate),
-            ProductServices: await _customerService.GetProductServiceAsync()
+        var landingData = new MeetingViewModel(
+            CustomerDDL: await _customerService.GetCustomerAsync(CustomerType.Corporate),
+            ProductServiceDDL: await _customerService.GetProductServiceAsync()
         );
 
         return View(landingData);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> IndexAsync(MeetingViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        return Ok();
     }
 
     [HttpGet("api/customers/{type}")]
